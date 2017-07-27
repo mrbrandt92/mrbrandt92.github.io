@@ -289,7 +289,7 @@ svg.selectAll("path")
       	   .duration(200)      
            .style("opacity", .9);      
            div.text(d.properties.name + ": " + d.properties.AverageTemperature + "°")
-           .style("left", (d3.event.pageX - 100) + "px")     
+           .style("left", (d3.event.pageX - 200) + "px")     
            .style("top", (d3.event.pageY - 28) + "px");    
 	})
     .on("mouseout", function(d) {       
