@@ -102,9 +102,10 @@ body {
 	  open source data set <a href='https://www.kaggle.com/berkeleyearth/climate-change-earth-surface-temperature-data'>"GlobalLandTemperaturesByState."</a></p>
 	  <h3>Annotations</h3>
 	  <p> Annotation is represented by a tooltip which displays state name and average temperature information when the 
-	  user hovers their mouse over a state on the map of the USA. Annotation also occurs in the form of a basic legend containing the minimum and maximum temperature in the scene.
-	  Due to time constraint and lack of prior d3.js knowledge, the language this project has been built in, 
-	  a smooth graident legend does not appear - however, the legend provided is intended to show the viewer what the author wished to convey. </p>  
+	  user hovers their mouse over a state on the map of the USA. As the user moves their mouse away from that state, the annotation associated with that state disappears and 
+	  an annotation for the next state they hover over appears. Annotation also occurs in the form of a basic legend containing the minimum and maximum temperature in the scene.
+	  Due to time constraint and lack of prior d3.js knowledge, the language this project has been built in, a smooth graident legend does not appear - however, the legend 
+	  provided is intended to show the viewer what the author wished to convey, which was highest and lowest average temperature. </p>  
 	  <h3>Parameters</h3>
 	  <p> Parameters in this project include a color range and domain values that are passed to fill the maps, loading data sets as a function, 
 	  and loading GeoJSON data to match GeoJSON properties to the .csv data field "State." 
