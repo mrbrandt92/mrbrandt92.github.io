@@ -123,6 +123,7 @@ body {
 	
     <section class="slide">
       <h4>USA Average Temperature in 1850 (Degrees Celsius)</h4>
+	  <div id="myDiv"></div>
 	  <p> In any democracy, with each newly elected leader comes new thoughts, ideas, beliefs, and vaues. This year, after the recent presidential election of Donald Trump 
 	  in the United States, one topic has garnered a lot of spotlight - global warming. 
 	  </br>
@@ -134,11 +135,11 @@ body {
 	  </br>
 	  </br>
 	  In 1850, the average temperature in the United States of America ranged from a low of -5.79 degrees Celsius (Alaska) to a high of 21.83 degrees Celsius (Florida).</p>
-	  <div id="myDiv"></div>
     </section>
 
     <section class="slide">
       <h4>USA Average Temperature in 2013 (Degrees Celsius)</h4>
+	  <div id="myDiv2"></div>
 	  <p>By 2013, temperatures have risen to a new low of -2.06 degrees Celsius and a new high of 23.03 degrees Celsius. 
 	  Alongside our outliers Alaska and Hawaii, the rest of the states appear to have heatened as a whole, as you can see from the color scale by moving from the previous slide
 	  to this slide
@@ -150,7 +151,6 @@ body {
 	  </br>
 	  To do more investigation into our global climate trend, please visit <a href='https://www.kaggle.com/berkeleyearth/climate-change-earth-surface-temperature-data'> Kaggle.com/berkeleyearth/climate-change-earth-surface-temperature-data</a> 
 	  to make your own inferences.</p>
-	  <div id="myDiv2"></div>
     </section>
 
 
@@ -290,7 +290,7 @@ svg.selectAll("path")
            .style("opacity", .9);      
            div.text(d.properties.name + ": " + d.properties.AverageTemperature + "°")
            .style("left", (d3.event.pageX - 100) + "px")     
-           .style("top", (d3.event.pageY) + "px");    
+           .style("top", (d3.event.pageY - 28) + "px");    
 	})
     .on("mouseout", function(d) {       
         div.transition()        
@@ -400,7 +400,7 @@ svg2.selectAll("path")
            .style("opacity", .9);      
            div2.text(d.properties.name + ": " + d.properties.AvgTemp + "°")
            .style("left", (d3.event.pageX - 100) + "px")     
-           .style("top", (d3.event.pageY) + "px");     
+           .style("top", (d3.event.pageY - 28) + "px");     
 	})
     .on("mouseout", function(d) {       
         div2.transition()        
