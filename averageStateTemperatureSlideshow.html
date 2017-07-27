@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=1024, user-scalable=no">
+
+  <title>CS498 Final d3.js Project</title>
+
+  <!-- Required stylesheet -->
+  <link rel="stylesheet" media="screen" href="core/deck.core.css">
+
+  <!-- Extension CSS files go here. Remove or add as needed. -->
+  <link rel="stylesheet" media="screen" href="extensions/goto/deck.goto.css">
+  <link rel="stylesheet" media="screen" href="extensions/menu/deck.menu.css">
+  <link rel="stylesheet" media="screen" href="extensions/navigation/deck.navigation.css">
+  <link rel="stylesheet" media="screen" href="extensions/status/deck.status.css">
+  <link rel="stylesheet" media="screen" href="extensions/scale/deck.scale.css">
+
+  <!-- Style theme. More available in /themes/style/ or create your own. -->
+  <link rel="stylesheet" media="screen" href="themes/style/web-2.0.css">
+
+  <!-- Transition theme. More available in /themes/transition/ or create your own. -->
+  <link rel="stylesheet" media="screen" href="themes/transition/horizontal-slide.css">
+
+  <!-- Basic black and white print styles -->
+  <link rel="stylesheet" media="print" href="core/print.css">
+
+  <!-- Required Modernizr file -->
+  <script src="modernizr.custom.js"></script>
+  
+  <!-- Required js sources -->
+ 
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://d3js.org/d3-scale.v1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+  <style type="text/css">
+  path:hover {
+	fill-opacity: .7;
+}
+/* Style for Custom Tooltip */
+div.tooltip {   
+ 	position: absolute;           
+	text-align: center;           
+	width: 80px;                  
+	height: 42px;                 
+	padding: 2px;             
+	font: 11.5px sans-serif;        
+	background: white;   
+	border: 0px;      
+	border-radius: 2px;           
+	pointer-events: none;         
+}
+        
+/* Legend Font Style */
+body {
+	font: 11px sans-serif;
+}
+        
+/* Legend Position Style */
+.legend {
+	position:absolute;
+	left:800px;
+	top:300px;
+        
+}
+        
+/* Legend Position Style */
+.legend2 {
+	position:absolute;
+	left:800px;
+	top:250px;
+}
+</style>
+</head>
+<body>
+  <div class="deck-container">
+
+    <!-- Begin slides. Just make elements with a class of slide. -->
+
+	<section class="slide">
+      <h2>Welcome!</h2>
+	  <h3>To navigate through this interactive slideshow, please use the "space bar," the "left and right arrow keys" on your keyboard, or click on the arrows to the left and right
+	  side of the page as they appear. To view all scenes in the deck, please press "ALT + M" to view and navigate using your mouse, or press "ALT + M" to return to 
+	  your original scene. </h3>
+	  <p> Reviewers: This deck was made and tested for desktop browsers Firefox and Chrome. This has not been tested for mobile or tablet device. If you are having trouble viewing this presentation, please try opening from the aforementioned browsers. Thank you!
+	</section>
+	
+	<section class="slide">
+      <h2>About This Project</h2>
+	  <p> Creator: Mallory Brandt (MCS-DS, University of Illinois)	</p>
+	  <h3>Hybrid Structure</h3>
+	  <p> This project follows the interactive slideshow hybrid structure. Users are taken through a series of slides, or scenes. While in each scene, users are able to mouseover 
+	  each state to dig into the details they may be interested in. You can equate this to the New York Times example provided in class lecture (Week 9 "The Narrative Spectrum"). </p>
+	  <h3>Scene Utilization</h3>
+	  <p> Based on deck.js, this project utilizes the spacebar, keyboard shortcuts, and keyboard arrow keys to navigate scenes as depicted by the author. Scenes follow a standard
+	  template, and scenes are labeled according to their order in the slideshow.
+	  There are four scenes: A welcome landing page, an "About This Project" page, a data vizualization of average climate temperature in the USA during 1850, 
+	  and a data vizualization of average climate temperature in the USA during 2013. These latter scenes are intended to show average land temperature provided by Kaggle's 
+	  open source data set <a href='https://www.kaggle.com/berkeleyearth/climate-change-earth-surface-temperature-data'>"GlobalLandTemperaturesByState."</a></p>
+	  <h3>Annotations</h3>
+	  <p> Annotation is represented by a tooltip which displays state name and average temperature information when the 
+	  user hovers their mouse over a state on the map of the USA. Annotation also occurs in the form of a basic legend containing the minimum and maximum temperature in the scene.
+	  Due to time constraint and lack of prior d3.js knowledge, the language this project has been built in, 
+	  a smooth graident legend does not appear - however, the legend provided is intended to show the viewer what the author wished to convey. </p>  
+	  <h3>Parameters</h3>
+	  <p> Parameters in this project include a color range and domain values that are passed to fill the maps, loading data sets as a function, 
+	  and loading GeoJSON data to match GeoJSON properties to the .csv data field "State." 
+	  </br>
+	  </br>
+	  The last part is crucial to creating these maps, since I did not have latitude and longitude information in my original dataset and I could not generate
+	  a map without it in GeoJSON or TopoJSON. I passed in my .csv file as "data" and passed in my us-states file as "json" and I mapped the field "State" 
+	  in the .csv file to the "name" in the json file. In doing this, I was able to retrieve the latitude and longitude needed from the json, and pass 
+      the value "AverageTemperature" from the .csv file and merge it into one to bring the data and the GeoJSON all together. 	  
+ 
+	  This information is then passed as a function to map average temperature 
+	  information to the proper state, which is provided in the json by latitude and longitude.  </p>
+	  <h3>Triggers</h3>
+	  <p> The keyboard shortcuts, pressing of spacebar to move forwards in the presentation, and pressing of arrow keys to move forwards and backwards act as a trigger to navigate through the slideshow presentation. The mouseover on the map scenes acts as a trigger to display the tooltip for the maps.</p>
+ </section>
+	
+    <section class="slide">
+      <h4>USA Average Temperature in 1850 (Degrees Celsius)</h4>
+	  <p> In any democracy, with each newly elected leader comes new thoughts, ideas, beliefs, and vaues. This year, after the recent presidential election of Donald Trump 
+	  in the United States, one topic has garnered a lot of spotlight - global warming. 
+	  </br>
+	  </br>
+	  President Trump recently took to Twitter stating that <b> "The concept of global warming was created by and for the Chinese in order to make U.S. 
+	  manufacturing non-competitive." </b> This sparked a great debate between the White House administration, scientists, the media, and the rest of the world. While the world debated their 
+	  stance on the matter, predictive modeling and analytics competition platform Kaggle decided to put data in the hands of the people in order to form their own views based
+	  on factual information. This data, reaching back as far as 1743, keeps record of the average land and sea temperature throughout the world. 
+	  </br>
+	  </br>
+	  In 1850, the average temperature in the United States of America ranged from a low of -5.79 degrees Celsius (Alaska) to a high of 21.83 degrees Celsius (Florida).</p>
+	  <div id="myDiv"></div>
+    </section>
+
+    <section class="slide">
+      <h4>USA Average Temperature in 2013 (Degrees Celsius)</h4>
+	  <p>By 2013, temperatures have risen to a new low of -2.06 degrees Celsius and a new high of 23.03 degrees Celsius. 
+	  Alongside our outliers Alaska and Hawaii, the rest of the states appear to have heatened as a whole, as you can see from the color scale by moving from the previous slide
+	  to this slide
+	  </br>
+	  </br>
+	  While this change in temperature alone may not completely back that global warming is proven to be real, it is certainly intriguing to find that our coldest state's temperature, Alaska, 
+	  has risen over 3° C... that's 37.4° F for our friends who use Fahrenheit!
+	  </br>	  
+	  </br>
+	  To do more investigation into our global climate trend, please visit <a href='https://www.kaggle.com/berkeleyearth/climate-change-earth-surface-temperature-data'> Kaggle.com/berkeleyearth/climate-change-earth-surface-temperature-data</a> 
+	  to make your own inferences.</p>
+	  <div id="myDiv2"></div>
+    </section>
+
+
+    <!-- End slides. -->
+
+    <!-- Begin extension snippets. Add or remove as needed. -->
+
+    <!-- deck.navigation snippet -->
+    <div aria-role="navigation">
+      <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+      <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+    </div>
+
+    <!-- deck.status snippet -->
+    <p class="deck-status" aria-role="status">
+      <span class="deck-status-current"></span>
+      /
+      <span class="deck-status-total"></span>
+    </p>
+
+    <!-- deck.goto snippet -->
+    <form action="." method="get" class="goto-form">
+      <label for="goto-slide">Go to slide:</label>
+      <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+      <datalist id="goto-datalist"></datalist>
+      <input type="submit" value="Go">
+    </form>
+
+    <!-- End extension snippets. -->
+  </div>
+
+<!-- Required JS files. -->
+<script src="jquery.min.js"></script>
+<script src="core/deck.core.js"></script>
+
+<!-- Extension JS files. Add or remove as needed. -->
+<script src="extensions/menu/deck.menu.js"></script>
+<script src="extensions/goto/deck.goto.js"></script>
+<script src="extensions/status/deck.status.js"></script>
+<script src="extensions/navigation/deck.navigation.js"></script>
+<script src="extensions/scale/deck.scale.js"></script>
+
+
+
+<!-- Initialize the deck. You can put this in an external file if desired. -->
+<script type="text/javascript">
+  $(function() {
+    $.deck('.slide');
+  });
+
+/* These vizualizations were created by updating code provided in the following resources:
+
+Scott Murray,"Interactive Data Visualization for the Web" Chapter 12
+http://chimera.labs.oreilly.com/books/1230000000345/ch12.html
+		
+Malcolm Maclean, tooltips example tutorial
+http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
+
+Map outline generated by utilizing public domain file "us-states.json"
+http://bl.ocks.org/mbostock/raw/2206489/7110de3d8412433d3222c9b7e3ac6593593162b2/us-states.json
+
+*/
+		
+//Width and height of map
+var width = 960;
+var height = 500;
+
+// D3 Projection
+var projection = d3.geo.albersUsa()
+				   .translate([width/2, height/2])    
+				   .scale([1000]);          
+        
+// Path generator
+var path = d3.geo.path()             
+		  	 .projection(projection);  
+
+		
+// Define multiple segment linear scale for output			  
+var color = d3.scaleLinear()
+  .range(['blue', 'red']);
+
+var legendText = ["Coldest: -5.79° C","Hottest: 21.83° C" ];
+
+//Create SVG element and append map to the SVG
+var svg = d3.select("#myDiv")
+			.append("svg")
+			.attr("width", width)
+			.attr("height", height);
+        
+// Append Div for tooltip to SVG
+var div = d3.select("#myDiv")
+		    .append("div")   
+    		.attr("class", "tooltip")               
+    		.style("opacity", 0);
+
+// Load in data for average temperature in 1850!
+d3.csv("avgStateTemp.csv", function(data) {
+color.domain([-6, 25]); 
+
+// Load in USA GeoJSON data
+d3.json("us-states.json", function(json) {
+
+//Merge the temp data and GeoJSON
+//Loop through once for each temp data value
+for (var i = 0; i < data.length; i++) {
+
+	// Grab state name
+	var dataState = data[i].State;
+
+	// Grab data value 
+	var dataValue = data[i].AverageTemperature;
+
+	// Find the corresponding state inside the GeoJSON
+	for (var j = 0; j < json.features.length; j++)  {
+		var jsonState = json.features[j].properties.name;
+
+		if (dataState == jsonState) {
+
+		// Copy the data value into the JSON
+		json.features[j].properties.AverageTemperature = dataValue; 
+
+		// Stop looking through the JSON
+		break;
+		}
+	}
+}
+		
+// Set fill value for each state
+svg.selectAll("path")
+	.data(json.features)
+	.enter()
+	.append("path")
+	.attr("d", path)
+	.on("mouseover", function(d) {      
+    	div.transition()        
+      	   .duration(200)      
+           .style("opacity", .9);      
+           div.text(d.properties.name + ": " + d.properties.AverageTemperature + "°")
+           .style("left", (d3.event.pageX - 100) + "px")     
+           .style("top", (d3.event.pageY) + "px");    
+	})
+    .on("mouseout", function(d) {       
+        div.transition()        
+           .duration(500)      
+           .style("opacity", 0);
+    })		   
+	.style("stroke", "#fff")
+	.style("stroke-width", "1")
+	.style("fill", function(d) {
+
+	// Get data value
+	var value = d.properties.AverageTemperature;
+
+	if (value) {
+	//If value exists…
+	return color(value);
+	} else {
+	//If value is undefined…	
+	return "#ccc";
+	}
+})
+
+// Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
+var legend = d3.select("#myDiv").append("svg")
+      			.attr("class", "legend")
+     			.attr("width", 300)
+    			.attr("height", 200)
+   				.selectAll("g")
+   				.data(color.domain().slice())
+   				.enter()
+   				.append("g")
+     			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  	legend.append("rect")
+   		  .attr("width", 18)
+   		  .attr("height", 18)
+   		  .style("fill", color);
+
+  	legend.append("text")
+  		  .data(legendText)
+      	  .attr("x", 24)
+      	  .attr("y", 9)
+      	  .attr("dy", ".35em")
+      	  .text(function(d) { return d; });
+	});
+
+}); 
+
+//Repeat the same thing as above, except for 2013 Average USA Temperature 
+var width2 = 960;
+var height2 = 500;
+
+var projection2 = d3.geo.albersUsa()
+				   .translate([width2/2, height2/2])    
+				   .scale([1000]);        
+
+var path2 = d3.geo.path()              
+		  	 .projection(projection2);  
+
+				  
+var color2 = d3.scaleLinear()
+  .range(['blue', 'red']);
+
+var legendText2 = ["Coldest: -2.06° C","Hottest: 23.03° C" ];
+
+var svg2 = d3.select("#myDiv2")
+			.append("svg")
+			.attr("width", width2)
+			.attr("height", height2);
+        
+var div2 = d3.select("#myDiv2")
+		    .append("div")   
+    		.attr("class", "tooltip")               
+    		.style("opacity", 0);
+
+d3.csv("2013StateTemp.csv", function(data2) {
+color2.domain([-3, 29]); 
+
+d3.json("us-states2.json", function(json2) {
+
+for (var o = 0; o < data2.length; o++) {
+
+	var dataState2 = data2[o].State;
+
+	var dataValue2 = data2[o].AvgTemp;
+
+	for (var q = 0; q < json2.features.length; q++)  {
+		var jsonState2 = json2.features[q].properties.name;
+
+		if (dataState2 == jsonState2) {
+
+		json2.features[q].properties.AvgTemp = dataValue2; 
+
+		break;
+		}
+	}
+}
+
+svg2.selectAll("path")
+	.data(json2.features)
+	.enter()
+	.append("path")
+	.attr("d", path2)
+	.on("mouseover", function(d) {      
+    	div2.transition()        
+      	   .duration(200)      
+           .style("opacity", .9);      
+           div2.text(d.properties.name + ": " + d.properties.AvgTemp + "°")
+           .style("left", (d3.event.pageX - 100) + "px")     
+           .style("top", (d3.event.pageY) + "px");     
+	})
+    .on("mouseout", function(d) {       
+        div2.transition()        
+           .duration(500)      
+           .style("opacity", 0);
+    })		   
+	.style("stroke", "#fff")
+	.style("stroke-width", "1")
+	.style("fill", function(d) {
+
+	var value2 = d.properties.AvgTemp;
+
+	if (value2) {
+	return color2(value2);
+	} else {
+	return "#ccc";
+	}
+})
+
+// Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
+var legend2 = d3.select("#myDiv2").append("svg")
+      			.attr("class", "legend2")
+     			.attr("width", 300)
+    			.attr("height", 200)
+   				.selectAll("g")
+   				.data(color.domain().slice())
+   				.enter()
+   				.append("g")
+     			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  	legend2.append("rect")
+   		  .attr("width", 18)
+   		  .attr("height", 18)
+   		  .style("fill", color);
+
+  	legend2.append("text")
+  		  .data(legendText2)
+      	  .attr("x", 24)
+      	  .attr("y", 9)
+      	  .attr("dy", ".35em")
+      	  .text(function(d) { return d; });
+	});
+
+});
+</script>
+</body>
+</html>
